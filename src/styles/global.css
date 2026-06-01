@@ -129,3 +129,54 @@ linear-gradient(135deg,#161616,#050505);border:1px solid #3b2727}
 .eventSheet{
   z-index:1001 !important;
 }
+
+.authPage {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at top, #340000, #070000 55%);
+  padding: 24px;
+}
+
+.authCard {
+  width: min(420px, 100%);
+  background: #120707;
+  border: 1px solid #4b1111;
+  border-radius: 28px;
+  padding: 24px;
+  text-align: center;
+  box-shadow: 0 20px 50px #000;
+}
+
+.authLogo {
+  width: 180px;
+  margin-bottom: 16px;
+}
+
+.authCard h1 {
+  margin: 0;
+}
+
+.authCard p {
+  color: #ccc;
+}
+
+.authCard form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.authCard button {
+  border: 0;
+  border-radius: 16px;
+  padding: 13px;
+  background: #d00000;
+  color: white;
+  font-weight: 900;
+}
+
+.authSwitch {
+  margin-top: 12px;
+  background: #222 !important;
+}
