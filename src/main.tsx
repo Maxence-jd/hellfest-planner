@@ -5,8 +5,19 @@ import { AuthGate } from './features/auth/AuthGate';
 import './styles/global.css';
 
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  window.addEventListener('load', async () => {
+    const registration = await navigator.serviceWorker.register('/sw.js');
+
+    registration.addEventListener('updatefound', () => {
+      const newWorker = registration.installing;
+      if (!newWorker) return;
+
+      newWorker.addEventListener('statechange', () => {
+        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+          window.dispatchEvent(new CustomEvent('app-update-available'));
+        }
+      });
+    });
   });
 }
 

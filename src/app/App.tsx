@@ -21,7 +21,21 @@ import { findConflicts } from '../lib/events';
 import type { FestivalEvent, Filters as FilterType } from '../lib/types';
 
 export function App() {
+  const [updateAvailable, setUpdateAvailable] = React.useState(false);
+
+  React.useEffect(() => {
+    const onUpdate = () => setUpdateAvailable(true);
+
+    window.addEventListener('app-update-available', onUpdate);
+
+    return () => {
+      window.removeEventListener('app-update-available', onUpdate);
+    };
+  }, []);
+
   const [tab, setTab] = React.useState<TabId>('home');
+
+
   const clock = useFestivalClock();
   const [filters, setFiltersState] = React.useState<FilterType>({ day: clock.day, stage: 'Toutes', mode: 'all', query: '' });
   const [activeEvent, setActiveEvent] = React.useState<FestivalEvent | null>(null);
@@ -173,8 +187,18 @@ download(
       </main>
 
       <Footer />
-      <BottomNav active={tab} setActive={setTab} />
 
+{updateAvailable && (
+  <button
+    className="updateBanner"
+    onClick={() => window.location.reload()}
+  >
+    Nouvelle version disponible — Mettre à jour
+  </button>
+)}
+
+<BottomNav active={tab} setActive={setTab} />
+      
       {activeEvent && (
         <EventSheet
           event={activeEvent}
