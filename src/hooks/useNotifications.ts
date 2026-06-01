@@ -38,7 +38,7 @@ export function useNotifications(
           icon: '/logo-fr.png',
           badge: '/logo-fr.png',
           tag: key,
-          renotify: true,
+          
         });
 
         localStorage.setItem(key, '1');
