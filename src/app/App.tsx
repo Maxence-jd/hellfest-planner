@@ -78,10 +78,13 @@ export function App() {
       const meta = getMeta(event.id);
       rows.push([event.day, event.stage, event.start, event.end, event.artist, meta.status, meta.priority, meta.criterion, meta.comment]);
     });
-    const csv = rows.map(row => row.map(value => `"${String(value).replaceAll('"','""')}"`).join(',')).join('\n');
-    download(new Blob([csv], { type: 'text/csv;charset=utf-8' }), 'hellfest-planner-v4-selection.csv');
-  }
+   const csv = rows.map(row => row.map(value => `"${String(value).replace(/"/g, '""')}"`).join(',')).join('\n');
 
+download(
+  new Blob([csv], { type: 'text/csv;charset=utf-8' }),
+  'hellfest-planner-v4-selection.csv'
+);
+}
   function download(blob: Blob, filename: string) {
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
