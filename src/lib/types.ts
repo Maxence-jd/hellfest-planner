@@ -27,7 +27,8 @@ export type UserState = Record<string, UserMeta>;
 
 export type Filters = {
   day: Day;
-  stage: 'Toutes' | Stage;
-  mode: 'all' | 'selected' | 'maybe' | 'p1' | 'p12' | 'unrated';
+  stages: Stage[];
+  statuses: Status[];
+  priorities: Priority[];
   query: string;
 };

@@ -37,7 +37,17 @@ export function App() {
 
 
   const clock = useFestivalClock();
-  const [filters, setFiltersState] = React.useState<FilterType>({ day: clock.day, stage: 'Toutes', mode: 'all', query: '' });
+
+
+ const [filters, setFiltersState] = React.useState<FilterType>({
+  day: clock.day,
+  stages: [],
+  statuses: [],
+  priorities: [],
+  query: '',
+});
+
+
   const [activeEvent, setActiveEvent] = React.useState<FestivalEvent | null>(null);
   const [timelineSignal, setTimelineSignal] = React.useState(0);
   const weather = useWeather();
@@ -62,14 +72,12 @@ export function App() {
     return EVENTS.filter(event => {
       const meta = getMeta(event.id);
       if (event.day !== filters.day) return false;
-      if (filters.stage !== 'Toutes' && event.stage !== filters.stage) return false;
-      if (filters.query && !event.artist.toLowerCase().includes(filters.query.toLowerCase())) return false;
-      if (filters.mode === 'selected' && meta.status !== 'yes') return false;
-      if (filters.mode === 'maybe' && meta.status !== 'maybe') return false;
-      if (filters.mode === 'p1' && meta.priority !== '1') return false;
-      if (filters.mode === 'p12' && !['1', '2'].includes(meta.priority)) return false;
-      if (filters.mode === 'unrated' && (meta.status || meta.priority || meta.criterion)) return false;
-      return true;
+     if (filters.stages.length > 0 && !filters.stages.includes(event.stage)) return false;
+if (filters.statuses.length > 0 && !filters.statuses.includes(meta.status)) return false;
+if (filters.priorities.length > 0 && !filters.priorities.includes(meta.priority)) return false;
+if (filters.query && !event.artist.toLowerCase().includes(filters.query.toLowerCase())) return false;
+
+
     }).sort((a, b) => DAYS.indexOf(a.day) - DAYS.indexOf(b.day) || a.start.localeCompare(b.start));
   }, [filters, state]);
 
